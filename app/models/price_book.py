@@ -6,11 +6,8 @@ from uuid import uuid4
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 from app.data.print_sizes import PRINT_SIZES
+from app.models.product_type import ProductType
 
-
-class ProductType(str, Enum):
-    PRINT = "PRINT"
-    FRAMED = "FRAMED"
 
 
 class Currency(str, Enum):
