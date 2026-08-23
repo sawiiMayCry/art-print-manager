@@ -1,0 +1,17 @@
+[
+  {
+    "id": "demo-001",
+    "title": "Mountain Sunrise",
+    "location": "Example Valley",
+    "year": 2026,
+    "status": "ACTIVE",
+    "edition_type": "OPEN"
+  },
+  {
+    "id": "demo-002",
+    "title": "Silent Coast",
+    "year": 2025,
+    "status": "ACTIVE",
+    "edition_type": "LIMITED"
+  }
+]
