@@ -1,10 +1,15 @@
 from fastapi import FastAPI, status
 
+from app.api.artworks import router as artworks_router
+
+
 app = FastAPI(
     title="Fine Art Print Manager",
     description="API for managing fine-art prints, pricing, products, and limited editions.",
     version="0.1.0",
 )
+
+app.include_router(artworks_router)
 
 
 @app.get(
