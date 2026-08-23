@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.models.artwork import Artwork
 from app.data.artworks import ARTWORKS
+from app.models.artwork import Artwork, EditionType
+from app.services.limited_editions import has_limited_edition
 
 
 router = APIRouter(
@@ -68,6 +70,19 @@ def update_artwork(
 
     for index, artwork in enumerate(ARTWORKS):
         if artwork.id == artwork_id:
+            if (
+                artwork.edition_type == EditionType.LIMITED
+                and updated_artwork.edition_type == EditionType.OPEN
+                and has_limited_edition(artwork_id)
+            ):
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail=(
+                        "Artwork with an existing limited edition "
+                        "cannot be changed to OPEN."
+                    ),
+                )
+
             ARTWORKS[index] = updated_artwork
             return updated_artwork
 

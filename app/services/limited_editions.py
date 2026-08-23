@@ -1,8 +1,10 @@
 from app.models.limited_edition import (
     EditionCopy,
     EditionCopyStatus,
-    LimitedEdition,
+    LimitedEdition
 )
+
+from app.data.limited_editions import LIMITED_EDITIONS
 
 ALLOWED_STATUS_TRANSITIONS = {
     EditionCopyStatus.AVAILABLE: {
@@ -81,3 +83,9 @@ def change_copy_status(
     data["status"] = new_status
 
     return EditionCopy.model_validate(data)
+
+def has_limited_edition(artwork_id: str) -> bool:
+    return any(
+        edition.artwork_id == artwork_id
+        for edition in LIMITED_EDITIONS
+    )
