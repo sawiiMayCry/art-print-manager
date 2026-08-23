@@ -1,9 +1,7 @@
-import json
-from pathlib import Path
-
 from fastapi import APIRouter, HTTPException, status
 
 from app.models.artwork import Artwork
+from app.data.artworks import ARTWORKS
 
 
 router = APIRouter(
@@ -11,21 +9,6 @@ router = APIRouter(
     tags=["Artworks"],
 )
 
-DEMO_ARTWORKS_PATH = (
-    Path(__file__).resolve().parents[2]
-    / "demo_data"
-    / "artworks.example.json"
-)
-
-
-def load_artworks() -> list[Artwork]:
-    with DEMO_ARTWORKS_PATH.open(encoding="utf-8") as file:
-        data = json.load(file)
-
-    return [Artwork.model_validate(item) for item in data]
-
-
-artworks = load_artworks()
 
 @router.get(
     "",
@@ -33,7 +16,7 @@ artworks = load_artworks()
     summary="List artworks",
 )
 def get_artworks() -> list[Artwork]:
-    return artworks
+    return ARTWORKS
 
 @router.get(
     "/{artwork_id}",
@@ -41,7 +24,7 @@ def get_artworks() -> list[Artwork]:
     summary="Get artwork",
 )
 def get_artwork(artwork_id: str) -> Artwork:
-    for artwork in artworks:
+    for artwork in ARTWORKS:
         if artwork.id == artwork_id:
             return artwork
 
@@ -57,14 +40,14 @@ def get_artwork(artwork_id: str) -> Artwork:
     summary="Create artwork",
 )
 def create_artwork(artwork: Artwork) -> Artwork:
-    for existing_artwork in artworks:
+    for existing_artwork in ARTWORKS:
         if existing_artwork.id == artwork.id:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="Artwork with this ID already exists.",
             )
 
-    artworks.append(artwork)
+    ARTWORKS.append(artwork)
 
     return artwork
 
@@ -83,9 +66,9 @@ def update_artwork(
             detail="Artwork ID in URL must match artwork ID in request body.",
         )
 
-    for index, artwork in enumerate(artworks):
+    for index, artwork in enumerate(ARTWORKS):
         if artwork.id == artwork_id:
-            artworks[index] = updated_artwork
+            ARTWORKS[index] = updated_artwork
             return updated_artwork
 
     raise HTTPException(

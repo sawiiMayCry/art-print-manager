@@ -3,6 +3,7 @@ from fastapi import FastAPI, status
 from app.api.artworks import router as artworks_router
 from app.api.print_sizes import router as print_sizes_router
 from app.api.price_books import router as price_books_router
+from app.api.print_products import router as print_products_router
 
 
 app = FastAPI(
@@ -14,7 +15,7 @@ app = FastAPI(
 app.include_router(artworks_router)
 app.include_router(print_sizes_router)
 app.include_router(price_books_router)
-
+app.include_router(print_products_router)
 
 @app.get(
     "/health",
