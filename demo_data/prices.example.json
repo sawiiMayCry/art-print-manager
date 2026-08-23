@@ -1,0 +1,23 @@
+{
+    "id": "demo-price-book",
+    "name": "Example Price Book",
+    "currency": "EUR",
+    "active": true,
+    "prices": [
+        {
+            "print_size": "a4",
+            "product_type": "PRINT",
+            "amount": "50.00"
+        },
+        {
+            "print_size": "a4",
+            "product_type": "FRAMED",
+            "amount": "140.00"
+        },
+        {
+            "print_size": "a3",
+            "product_type": "PRINT",
+            "amount": "90.00"
+        }
+    ]
+}
