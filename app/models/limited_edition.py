@@ -23,5 +23,5 @@ class LimitedEdition(LimitedEditionInput):
 class EditionCopy(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid4()))
     limited_edition_id: str
-    edition_number: int
+    edition_number: int = Field(gt=0)
     status: EditionCopyStatus = EditionCopyStatus.AVAILABLE
