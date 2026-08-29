@@ -30,7 +30,7 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [pre-commit]
-        
+
       - id: integration-tests
         name: Run integration tests
         entry: python -m unittest tests.test_api -v
