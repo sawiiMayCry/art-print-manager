@@ -124,51 +124,51 @@ class TestLimitedEditions(unittest.TestCase):
             artwork_id="test-artwork-001",
             edition_size=1,
         )
-    
+
         copies = create_edition_copies(edition)
-    
+
         self.assertEqual(len(copies), 1)
         self.assertEqual(copies[0].edition_number, 1)
-    
-    
+
+
     def test_zero_edition_size_is_rejected(self):
         with self.assertRaises(ValidationError):
             LimitedEdition(
                 artwork_id="test-artwork-001",
                 edition_size=0,
             )
-    
-    
+
+
     def test_copy_from_wrong_edition_is_rejected(self):
         edition_a = LimitedEdition(
             artwork_id="test-artwork-a",
             edition_size=10,
         )
-    
+
         edition_b = LimitedEdition(
             artwork_id="test-artwork-b",
             edition_size=10,
         )
-    
+
         copy = EditionCopy(
             limited_edition_id=edition_a.id,
             edition_number=1,
         )
-    
+
         with self.assertRaises(ValueError):
             validate_edition_copies(
                 edition_b,
                 [copy],
             )
-    
-    
+
+
     def test_status_input_is_normalized(self):
         copy = EditionCopy(
             limited_edition_id="test-edition",
             edition_number=1,
             status=" available ",
         )
-    
+
         self.assertEqual(
             copy.status,
             EditionCopyStatus.AVAILABLE,

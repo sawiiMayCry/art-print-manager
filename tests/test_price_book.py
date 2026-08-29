@@ -146,7 +146,7 @@ class TestPriceBook(unittest.TestCase):
                 currency="EUR",
                 prices=[
                     {
-                        "print_size": "a4", 
+                        "print_size": "a4",
                         "product_type": "PRINT",
                         "amount": "Infinity",
                     }
@@ -167,7 +167,7 @@ class TestPriceBook(unittest.TestCase):
                 }
             ],
         )
-    
+
         self.assertEqual(
             price_book.prices[0].amount,
             Decimal("0.01"),

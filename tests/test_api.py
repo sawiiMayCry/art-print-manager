@@ -335,7 +335,7 @@ class TestAPI(unittest.TestCase):
                 "edition_size": 10,
             },
         )
-    
+
         response = self.client.put(
             "/artworks/test-artwork-limited",
             json={
@@ -346,7 +346,7 @@ class TestAPI(unittest.TestCase):
                 "edition_type": "OPEN",
             },
         )
-    
+
         self.assertEqual(response.status_code, 409)
 
     def test_duplicate_price_book_id_is_rejected(self):
@@ -449,6 +449,3 @@ class TestAPI(unittest.TestCase):
             products[0]["id"],
             product_id,
         )
-
-
-        
