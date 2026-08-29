@@ -37,6 +37,7 @@ class EditionCopy(BaseModel):
     edition_number: int = Field(gt=0)
     status: EditionCopyStatus = EditionCopyStatus.AVAILABLE
 
+
 class EditionCopyStatusUpdate(BaseModel):
     status: EditionCopyStatus
 

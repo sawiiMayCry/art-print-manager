@@ -70,9 +70,7 @@ class TestAPI(unittest.TestCase):
         )
 
     def test_unknown_artwork_returns_404(self):
-        response = self.client.get(
-            "/artworks/does-not-exist"
-        )
+        response = self.client.get("/artworks/does-not-exist")
 
         self.assertEqual(response.status_code, 404)
 
@@ -232,9 +230,7 @@ class TestAPI(unittest.TestCase):
 
         self.assertEqual(response.status_code, 201)
 
-        copies_response = self.client.get(
-            "/editions/test-artwork-limited/copies"
-        )
+        copies_response = self.client.get("/editions/test-artwork-limited/copies")
 
         self.assertEqual(
             len(copies_response.json()),
@@ -261,9 +257,7 @@ class TestAPI(unittest.TestCase):
             },
         )
 
-        copies = self.client.get(
-            "/editions/test-artwork-limited/copies"
-        ).json()
+        copies = self.client.get("/editions/test-artwork-limited/copies").json()
 
         copy_id = copies[0]["id"]
 
@@ -306,9 +300,7 @@ class TestAPI(unittest.TestCase):
             },
         )
 
-        copies = self.client.get(
-            "/editions/test-artwork-limited/copies"
-        ).json()
+        copies = self.client.get("/editions/test-artwork-limited/copies").json()
 
         copy_id = copies[0]["id"]
 
@@ -317,9 +309,7 @@ class TestAPI(unittest.TestCase):
             json={"status": "SOLD"},
         )
 
-        response = self.client.get(
-            "/editions/test-artwork-limited"
-        )
+        response = self.client.get("/editions/test-artwork-limited")
 
         summary = response.json()
 
@@ -369,11 +359,8 @@ class TestAPI(unittest.TestCase):
 
         self.assertEqual(response.status_code, 409)
 
-
     def test_unknown_price_book_returns_404(self):
-        response = self.client.get(
-            "/price-books/not-a-real-book"
-        )
+        response = self.client.get("/price-books/not-a-real-book")
 
         self.assertEqual(response.status_code, 404)
 
@@ -400,9 +387,7 @@ class TestAPI(unittest.TestCase):
             },
         )
 
-        copies = self.client.get(
-            "/editions/test-artwork-limited/copies"
-        ).json()
+        copies = self.client.get("/editions/test-artwork-limited/copies").json()
 
         copy_id = copies[0]["id"]
 
@@ -416,9 +401,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 422)
 
     def test_delete_unknown_print_product_returns_404(self):
-        response = self.client.delete(
-            "/artworks/test-artwork-open/products/not-real"
-        )
+        response = self.client.delete("/artworks/test-artwork-open/products/not-real")
 
         self.assertEqual(response.status_code, 404)
 
@@ -440,9 +423,7 @@ class TestAPI(unittest.TestCase):
 
         self.assertEqual(response.status_code, 404)
 
-        products = self.client.get(
-            "/artworks/test-artwork-open/products"
-        ).json()
+        products = self.client.get("/artworks/test-artwork-open/products").json()
 
         self.assertEqual(len(products), 1)
         self.assertEqual(

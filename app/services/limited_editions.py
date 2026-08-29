@@ -1,8 +1,4 @@
-from app.models.limited_edition import (
-    EditionCopy,
-    EditionCopyStatus,
-    LimitedEdition
-)
+from app.models.limited_edition import EditionCopy, EditionCopyStatus, LimitedEdition
 
 from app.data.limited_editions import LIMITED_EDITIONS
 
@@ -18,8 +14,8 @@ ALLOWED_STATUS_TRANSITIONS = {
         EditionCopyStatus.RETIRED,
     },
     EditionCopyStatus.SOLD: {
-    EditionCopyStatus.AVAILABLE,
-    EditionCopyStatus.RETIRED,
+        EditionCopyStatus.AVAILABLE,
+        EditionCopyStatus.RETIRED,
     },
     EditionCopyStatus.RETIRED: set(),
 }
@@ -36,6 +32,7 @@ def create_edition_copies(
         for number in range(1, limited_edition.edition_size + 1)
     ]
 
+
 def validate_edition_copies(
     limited_edition: LimitedEdition,
     copies: list[EditionCopy],
@@ -44,9 +41,7 @@ def validate_edition_copies(
 
     for copy in copies:
         if copy.limited_edition_id != limited_edition.id:
-            raise ValueError(
-                "Edition copy does not belong to this limited edition."
-            )
+            raise ValueError("Edition copy does not belong to this limited edition.")
 
         if copy.edition_number > limited_edition.edition_size:
             raise ValueError(
@@ -55,9 +50,7 @@ def validate_edition_copies(
             )
 
         if copy.edition_number in seen_numbers:
-            raise ValueError(
-                f"Duplicate edition number: {copy.edition_number}."
-            )
+            raise ValueError(f"Duplicate edition number: {copy.edition_number}.")
 
         seen_numbers.add(copy.edition_number)
 
@@ -67,16 +60,13 @@ def change_copy_status(
     new_status: EditionCopyStatus,
 ) -> EditionCopy:
     if new_status == copy.status:
-        raise ValueError(
-            f"Edition copy is already {copy.status.value}."
-        )
+        raise ValueError(f"Edition copy is already {copy.status.value}.")
 
     allowed_statuses = ALLOWED_STATUS_TRANSITIONS[copy.status]
 
     if new_status not in allowed_statuses:
         raise ValueError(
-            f"Invalid status transition: "
-            f"{copy.status.value} → {new_status.value}."
+            f"Invalid status transition: {copy.status.value} → {new_status.value}."
         )
 
     data = copy.model_dump()
@@ -84,8 +74,6 @@ def change_copy_status(
 
     return EditionCopy.model_validate(data)
 
+
 def has_limited_edition(artwork_id: str) -> bool:
-    return any(
-        edition.artwork_id == artwork_id
-        for edition in LIMITED_EDITIONS
-    )
+    return any(edition.artwork_id == artwork_id for edition in LIMITED_EDITIONS)

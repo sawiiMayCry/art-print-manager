@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
 
-from app.models.artwork import Artwork
 from app.data.artworks import ARTWORKS
 from app.models.artwork import Artwork, EditionType
 from app.services.limited_editions import has_limited_edition
@@ -20,6 +19,7 @@ router = APIRouter(
 def get_artworks() -> list[Artwork]:
     return ARTWORKS
 
+
 @router.get(
     "/{artwork_id}",
     response_model=Artwork,
@@ -34,6 +34,7 @@ def get_artwork(artwork_id: str) -> Artwork:
         status_code=status.HTTP_404_NOT_FOUND,
         detail="Artwork not found.",
     )
+
 
 @router.post(
     "",
@@ -52,6 +53,7 @@ def create_artwork(artwork: Artwork) -> Artwork:
     ARTWORKS.append(artwork)
 
     return artwork
+
 
 @router.put(
     "/{artwork_id}",

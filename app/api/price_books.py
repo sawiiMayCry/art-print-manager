@@ -21,6 +21,7 @@ class MessageResponse(BaseModel):
 
 price_books: list[PriceBook] = []
 
+
 def get_price_book_index(price_book_id: str) -> int:
     for index, price_book in enumerate(price_books):
         if price_book.id == price_book_id:
@@ -41,6 +42,7 @@ def rebuild_price_book(
 
     return PriceBook.model_validate(data)
 
+
 @router.get(
     "",
     response_model=list[PriceBook] | MessageResponse,
@@ -48,11 +50,10 @@ def rebuild_price_book(
 )
 def get_price_books() -> list[PriceBook] | MessageResponse:
     if not price_books:
-        return MessageResponse(
-            message="No price book configured."
-        )
+        return MessageResponse(message="No price book configured.")
 
     return price_books
+
 
 @router.post(
     "",
@@ -78,6 +79,7 @@ def create_price_book(
 
     return price_book
 
+
 @router.get(
     "/{price_book_id}",
     response_model=PriceBook,
@@ -86,6 +88,7 @@ def create_price_book(
 def get_price_book(price_book_id: str) -> PriceBook:
     index = get_price_book_index(price_book_id)
     return price_books[index]
+
 
 @router.post(
     "/{price_book_id}/prices",
@@ -123,6 +126,7 @@ def add_price(
     )
 
     return new_price
+
 
 @router.put(
     "/{price_book_id}/prices/{price_id}",
@@ -176,6 +180,7 @@ def update_price(
 
     return updated_price
 
+
 @router.delete(
     "/{price_book_id}/prices/{price_id}",
     status_code=status.HTTP_204_NO_CONTENT,
@@ -188,11 +193,7 @@ def delete_price(
     book_index = get_price_book_index(price_book_id)
     price_book = price_books[book_index]
 
-    updated_prices = [
-        price
-        for price in price_book.prices
-        if price.id != price_id
-    ]
+    updated_prices = [price for price in price_book.prices if price.id != price_id]
 
     if len(updated_prices) == len(price_book.prices):
         raise HTTPException(

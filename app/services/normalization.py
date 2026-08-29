@@ -32,6 +32,7 @@ def normalize_print_size(value: str) -> str:
 
     raise ValueError(f"Invalid print size format: {value}")
 
+
 def get_supported_print_size(value: str) -> PrintSize:
     normalized = normalize_print_size(value)
 
@@ -40,7 +41,6 @@ def get_supported_print_size(value: str) -> PrintSize:
             return print_size
 
     raise ValueError(f"Unsupported print size: {value}")
-
 
 
 def clean_numeric_value(value: str | int | float | Decimal) -> Decimal:
@@ -59,9 +59,7 @@ def clean_numeric_value(value: str | int | float | Decimal) -> Decimal:
         try:
             result = Decimal(cleaned)
         except InvalidOperation as exc:
-            raise ValueError(
-                f"Cannot convert value to a number: {value}"
-            ) from exc
+            raise ValueError(f"Cannot convert value to a number: {value}") from exc
 
     if not result.is_finite():
         raise ValueError(f"Value must be a finite number: {value}")

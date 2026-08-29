@@ -24,6 +24,7 @@ def ensure_artwork_exists(artwork_id: str) -> None:
         detail="Artwork not found.",
     )
 
+
 @router.get(
     "/{artwork_id}/products",
     response_model=list[PrintProduct],
@@ -32,11 +33,8 @@ def ensure_artwork_exists(artwork_id: str) -> None:
 def get_print_products(artwork_id: str) -> list[PrintProduct]:
     ensure_artwork_exists(artwork_id)
 
-    return [
-        product
-        for product in print_products
-        if product.artwork_id == artwork_id
-    ]
+    return [product for product in print_products if product.artwork_id == artwork_id]
+
 
 @router.post(
     "/{artwork_id}/products",
@@ -71,6 +69,7 @@ def create_print_product(
 
     return product
 
+
 @router.delete(
     "/{artwork_id}/products/{product_id}",
     status_code=status.HTTP_204_NO_CONTENT,
@@ -83,10 +82,7 @@ def delete_print_product(
     ensure_artwork_exists(artwork_id)
 
     for index, product in enumerate(print_products):
-        if (
-            product.id == product_id
-            and product.artwork_id == artwork_id
-        ):
+        if product.id == product_id and product.artwork_id == artwork_id:
             del print_products[index]
             return
 

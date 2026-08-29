@@ -22,6 +22,7 @@ router = APIRouter(
     tags=["Limited Editions"],
 )
 
+
 def get_artwork(artwork_id: str):
     for artwork in ARTWORKS:
         if artwork.id == artwork_id:
@@ -31,6 +32,7 @@ def get_artwork(artwork_id: str):
         status_code=status.HTTP_404_NOT_FOUND,
         detail="Artwork not found.",
     )
+
 
 def get_limited_edition(artwork_id: str) -> LimitedEdition:
     for edition in LIMITED_EDITIONS:
@@ -42,36 +44,22 @@ def get_limited_edition(artwork_id: str) -> LimitedEdition:
         detail="Limited edition not found.",
     )
 
+
 def build_edition_summary(
     edition: LimitedEdition,
 ) -> EditionSummary:
-    copies = [
-        copy
-        for copy in EDITION_COPIES
-        if copy.limited_edition_id == edition.id
-    ]
+    copies = [copy for copy in EDITION_COPIES if copy.limited_edition_id == edition.id]
 
     return EditionSummary(
         id=edition.id,
         artwork_id=edition.artwork_id,
         edition_size=edition.edition_size,
-        available=sum(
-            copy.status == EditionCopyStatus.AVAILABLE
-            for copy in copies
-        ),
-        reserved=sum(
-            copy.status == EditionCopyStatus.RESERVED
-            for copy in copies
-        ),
-        sold=sum(
-            copy.status == EditionCopyStatus.SOLD
-            for copy in copies
-        ),
-        retired=sum(
-            copy.status == EditionCopyStatus.RETIRED
-            for copy in copies
-        ),
+        available=sum(copy.status == EditionCopyStatus.AVAILABLE for copy in copies),
+        reserved=sum(copy.status == EditionCopyStatus.RESERVED for copy in copies),
+        sold=sum(copy.status == EditionCopyStatus.SOLD for copy in copies),
+        retired=sum(copy.status == EditionCopyStatus.RETIRED for copy in copies),
     )
+
 
 @router.post(
     "/editions",
@@ -113,6 +101,7 @@ def create_limited_edition(
 
     return edition
 
+
 @router.get(
     "/editions/{artwork_id}",
     response_model=EditionSummary,
@@ -127,6 +116,7 @@ def get_edition_summary(
 
     return build_edition_summary(edition)
 
+
 @router.get(
     "/editions/{artwork_id}/copies",
     response_model=list[EditionCopy],
@@ -139,11 +129,8 @@ def get_edition_copies(
 
     edition = get_limited_edition(artwork_id)
 
-    return [
-        copy
-        for copy in EDITION_COPIES
-        if copy.limited_edition_id == edition.id
-    ]
+    return [copy for copy in EDITION_COPIES if copy.limited_edition_id == edition.id]
+
 
 @router.patch(
     "/edition-copies/{copy_id}/status",

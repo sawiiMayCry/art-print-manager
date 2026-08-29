@@ -105,7 +105,6 @@ class TestPriceBook(unittest.TestCase):
                 currency="BANANA",
             )
 
-
     def test_currency_is_normalized(self):
         price_book = PriceBook(
             id="currency-book",
@@ -117,7 +116,6 @@ class TestPriceBook(unittest.TestCase):
             price_book.currency.value,
             "EUR",
         )
-
 
     def test_product_type_is_normalized(self):
         price_book = PriceBook(
@@ -153,7 +151,6 @@ class TestPriceBook(unittest.TestCase):
                 ],
             )
 
-
     def test_small_positive_price_is_valid(self):
         price_book = PriceBook(
             id="small-price-book",
@@ -172,6 +169,7 @@ class TestPriceBook(unittest.TestCase):
             price_book.prices[0].amount,
             Decimal("0.01"),
         )
+
 
 if __name__ == "__main__":
     unittest.main()

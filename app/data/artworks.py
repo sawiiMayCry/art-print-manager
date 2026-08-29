@@ -5,9 +5,7 @@ from app.models.artwork import Artwork
 
 
 DEMO_ARTWORKS_PATH = (
-    Path(__file__).resolve().parents[2]
-    / "demo_data"
-    / "artworks.example.json"
+    Path(__file__).resolve().parents[2] / "demo_data" / "artworks.example.json"
 )
 
 

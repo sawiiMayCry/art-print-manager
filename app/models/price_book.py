@@ -9,7 +9,6 @@ from app.data.print_sizes import PRINT_SIZES
 from app.models.product_type import ProductType
 
 
-
 class Currency(str, Enum):
     EUR = "EUR"
     USD = "USD"
@@ -18,6 +17,7 @@ class Currency(str, Enum):
 
 
 VALID_PRINT_SIZE_IDS = {print_size.id for print_size in PRINT_SIZES}
+
 
 class PriceEntryInput(BaseModel):
     print_size: str
@@ -44,6 +44,7 @@ class PriceEntryInput(BaseModel):
             raise ValueError("Price must be greater than zero.")
 
         return value
+
 
 class PriceEntry(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid4()))
@@ -104,6 +105,7 @@ class PriceBook(BaseModel):
             seen.add(key)
 
         return self
+
 
 class PriceBookInput(BaseModel):
     id: str
